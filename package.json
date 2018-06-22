@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
