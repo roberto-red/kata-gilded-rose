@@ -55,9 +55,6 @@ GildedRose.updateQuality = function(items) {
           item.quality = item.quality - item.quality
         }
       } else {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1
-        }
         if (BRIE == item.name && item.sellIn <= 0) item.quality = 0
       } // of for.
     }
