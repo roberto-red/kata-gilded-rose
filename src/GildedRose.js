@@ -18,44 +18,28 @@ const GildedRose = function() {
   GildedRose.updateQuality(items)
 }
 
+const IMPROVE_WITH_TIME = [BRIE, BACKSTAGE]
+const improvesWithTime = item => IMPROVE_WITH_TIME.includes(item.name)
+
+const increaseQuality = item => {
+  if (item.quality < 50 && item.name !== SULFURAS) item.quality++
+  if (item.sellIn < 6) {
+    item.quality++
+  }
+  if (item.sellIn < 11) {
+    item.quality++
+  }
+}
+
 GildedRose.updateQuality = function(items) {
   items.forEach(item => {
-    if (BRIE != item.name && BACKSTAGE != item.name) {
+    if (!improvesWithTime(item)) {
       //TODO: Improve this code.
-      if (item.quality > 0) {
-        if (SULFURAS != item.name) {
-          item.quality = item.quality - 1
-        }
+      if (SULFURAS != item.name) {
+        item.quality = item.quality - 1
       }
     } else {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1
-        if (BRIE == item.name) {
-          if (item.sellIn < 6) {
-            item.quality = item.quality + 1
-          }
-        }
-        //Increases the Quality of the stinky cheese if its 11 days to due date.
-        if (BRIE == item.name) {
-          if (item.sellIn < 11) {
-            item.quality = item.quality + 1
-          }
-        }
-        if (BACKSTAGE == item.name) {
-          if (item.sellIn < 11) {
-            // See revision number 2394 on SVN.
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-          //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-          if (item.sellIn < 6) {
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-        }
-      }
+      increaseQuality(item)
     }
     if (SULFURAS != item.name) {
       item.sellIn = item.sellIn - 1
@@ -63,10 +47,8 @@ GildedRose.updateQuality = function(items) {
     if (item.sellIn < 0) {
       if (BRIE != item.name) {
         if (BACKSTAGE != item.name) {
-          if (item.quality > 0) {
-            if (SULFURAS != item.name) {
-              item.quality = item.quality - 1
-            }
+          if (SULFURAS != item.name) {
+            item.quality = item.quality - 1
           }
         } else {
           //TODO: Fix this.
