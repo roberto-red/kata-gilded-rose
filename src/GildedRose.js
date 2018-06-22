@@ -31,7 +31,11 @@ const increaseQuality = item => {
   }
 }
 
-const isExpired = item => item.sellIn <= 0
+const isExpired = item => item.sellIn < 0
+
+const decreaseSellIn = item => {
+  if (SULFURAS != item.name) item.sellIn--
+}
 
 GildedRose.updateQuality = function(items) {
   items.forEach(item => {
@@ -43,14 +47,11 @@ GildedRose.updateQuality = function(items) {
     } else {
       increaseQuality(item)
     }
-    if (SULFURAS != item.name) {
-      item.sellIn = item.sellIn - 1
-    }
-    if (item.sellIn < 0) {
-      if (BACKSTAGE != item.name) {
-        if (SULFURAS != item.name) {
-          item.quality = item.quality - 1
-        }
+    decreaseSellIn(item)
+
+    if (isExpired(item)) {
+      if (BACKSTAGE != item.name && SULFURAS != item.name) {
+        item.quality = item.quality - 1
       } else {
         //TODO: Fix this.
         item.quality = item.quality - item.quality
