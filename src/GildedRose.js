@@ -32,18 +32,14 @@ const increaseQuality = item => {
 }
 
 const updateItemQuality = item => {
-  if (!improvesWithTime(item)) {
-    item.quality = item.quality - 1
-  } else {
+  if (improvesWithTime(item)) {
     increaseQuality(item)
+    if (isExpired(item)) item.quality = 0
+  } else {
+    item.quality--
+    if (isExpired(item)) item.quality--
   }
   item.quality = Math.min(item.quality, 50)
-  if (isExpired(item)) {
-    if (improvesWithTime(item)) item.quality = 0
-    else {
-      item.quality = item.quality - 1
-    }
-  }
 }
 
 const isExpired = item => item.sellIn < 0
