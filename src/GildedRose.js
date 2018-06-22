@@ -37,7 +37,7 @@ const updateItemQuality = item => {
   } else {
     increaseQuality(item)
   }
-  if (item.quality > 50) item.quality = 50
+  item.quality = Math.min(item.quality, 50)
 }
 
 const isExpired = item => item.sellIn < 0
