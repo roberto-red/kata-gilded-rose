@@ -31,6 +31,8 @@ const increaseQuality = item => {
   }
 }
 
+const isExpired = item => item.sellIn <= 0
+
 GildedRose.updateQuality = function(items) {
   items.forEach(item => {
     if (!improvesWithTime(item)) {
@@ -45,18 +47,15 @@ GildedRose.updateQuality = function(items) {
       item.sellIn = item.sellIn - 1
     }
     if (item.sellIn < 0) {
-      if (BRIE != item.name) {
-        if (BACKSTAGE != item.name) {
-          if (SULFURAS != item.name) {
-            item.quality = item.quality - 1
-          }
-        } else {
-          //TODO: Fix this.
-          item.quality = item.quality - item.quality
+      if (BACKSTAGE != item.name) {
+        if (SULFURAS != item.name) {
+          item.quality = item.quality - 1
         }
       } else {
-        if (BRIE == item.name && item.sellIn <= 0) item.quality = 0
-      } // of for.
+        //TODO: Fix this.
+        item.quality = item.quality - item.quality
+      }
+      if (BRIE == item.name && item.sellIn <= 0) item.quality = 0
     }
     if (SULFURAS != item.name) if (item.quality > 50) item.quality = 50
   })
