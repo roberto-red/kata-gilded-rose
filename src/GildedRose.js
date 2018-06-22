@@ -22,7 +22,7 @@ const IMPROVE_WITH_TIME = [BRIE, BACKSTAGE]
 const improvesWithTime = item => IMPROVE_WITH_TIME.includes(item.name)
 
 const increaseQuality = item => {
-  if (item.quality < 50 && item.name !== SULFURAS) item.quality++
+  item.quality++
   if (item.sellIn < 6) {
     item.quality++
   }
