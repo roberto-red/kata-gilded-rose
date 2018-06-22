@@ -55,10 +55,8 @@ GildedRose.updateQuality = function(items) {
     if (isExpired(item)) {
       if (BACKSTAGE != item.name) {
         item.quality = item.quality - 1
-      } else {
-        item.quality = 0
       }
-      if (BRIE == item.name && item.sellIn <= 0) item.quality = 0
+      if (improvesWithTime(item)) item.quality = 0
     }
   })
   return items
