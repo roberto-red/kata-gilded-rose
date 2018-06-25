@@ -35,44 +35,33 @@ function isNotSulfuras(item) {
   return !isSulfuras(item)
 }
 
-const UPDATERS = {
-  "Sulfuras, Hand of Ragnaros": item => item,
-  "Aged Brie": item => {
-    let { name, sellIn, quality } = item
-    sellIn--
+function oneUpdater(item) {
+  let { name, sellIn, quality } = item
+  sellIn--
+  quality++
+  if (sellIn < 11) {
     quality++
-    if (sellIn < 11) {
-      quality++
-    }
-    if (sellIn < 6) {
-      quality++
-    }
-    if (sellIn < 0) {
-      quality = 0
-    }
-    if (quality > 50) {
-      quality = 50
-    }
-    return { name, sellIn, quality }
-  },
-  "Backstage passes to a TAFKAL80ETC concert": item => {
-    let { name, sellIn, quality } = item
-    sellIn--
-    quality++
-    if (sellIn < 11) {
-      quality++
-    }
-    if (sellIn < 6) {
-      quality++
-    }
-    if (sellIn < 0) {
-      quality = 0
-    }
-    if (quality > 50) {
-      quality = 50
-    }
-    return { name, sellIn, quality }
   }
+  if (sellIn < 6) {
+    quality++
+  }
+  if (sellIn < 0) {
+    quality = 0
+  }
+  if (quality > 50) {
+    quality = 50
+  }
+  return { name, sellIn, quality }
+}
+
+function identity(item) {
+  return { ...item }
+}
+
+const UPDATERS = {
+  "Sulfuras, Hand of Ragnaros": identity,
+  "Aged Brie": oneUpdater,
+  "Backstage passes to a TAFKAL80ETC concert": oneUpdater
 }
 
 GildedRose.updateQuality = function (items) {
