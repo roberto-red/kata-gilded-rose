@@ -36,7 +36,43 @@ function isNotSulfuras(item) {
 }
 
 const UPDATERS = {
-  "Sulfuras, Hand of Ragnaros": item => item
+  "Sulfuras, Hand of Ragnaros": item => item,
+  "Aged Brie": item => {
+    let { name, sellIn, quality } = item
+    sellIn--
+    quality++
+    if (sellIn < 11) {
+      quality++
+    }
+    if (sellIn < 6) {
+      quality++
+    }
+    if (sellIn < 0) {
+      quality = 0
+    }
+    if (quality > 50) {
+      quality = 50
+    }
+    return { name, sellIn, quality }
+  },
+  "Backstage passes to a TAFKAL80ETC concert": item => {
+    let { name, sellIn, quality } = item
+    sellIn--
+    quality++
+    if (sellIn < 11) {
+      quality++
+    }
+    if (sellIn < 6) {
+      quality++
+    }
+    if (sellIn < 0) {
+      quality = 0
+    }
+    if (quality > 50) {
+      quality = 50
+    }
+    return { name, sellIn, quality }
+  }
 }
 
 GildedRose.updateQuality = function (items) {
@@ -45,44 +81,6 @@ GildedRose.updateQuality = function (items) {
     const updater = UPDATERS[item.name]
     if (updater) {
       return updater(item)
-    }
-
-    if (isAgedBrie(item)) {
-      let { name, sellIn, quality } = item
-      sellIn--
-      quality++
-      if (sellIn < 11) {
-        quality++
-      }
-      if (sellIn < 6) {
-        quality++
-      }
-      if (sellIn < 0) {
-        quality = 0
-      }
-      if (quality > 50) {
-        quality = 50
-      }
-      return { name, sellIn, quality }
-    }
-
-    if (isBackstage(item)) {
-      let { name, sellIn, quality } = item
-      sellIn--
-      quality++
-      if (sellIn < 11) {
-        quality++
-      }
-      if (sellIn < 6) {
-        quality++
-      }
-      if (sellIn < 0) {
-        quality = 0
-      }
-      if (quality > 50) {
-        quality = 50
-      }
-      return { name, sellIn, quality }
     }
 
     if (isNotAgedBrie(item) && isNotBackstage(item)) {
