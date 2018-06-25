@@ -19,6 +19,12 @@ const isNotPass = item => !isPass(item);
 
 const qualityOverZero = item => item.quality > 0;
 const qualityUnderFifty = item => item.quality < 50;
+const qualityOverFifty = item => item.quality > 50;
+
+const sellInUnderEleven = item => item.sellIn < 11;
+const sellInUnderSix = item => item.sellIn < 6;
+const sellInUnderZero = item => item.sellIn < 0;
+const sellInLessOrEqualsZero = item => item.sellIn <= 0;
 
 const GildedRose = function() {
   var items = [];
@@ -46,25 +52,25 @@ GildedRose.updateQuality = function(items) {
       if (qualityUnderFifty(item)) {
         item.quality++;
         if (isBrie(item)) {
-          if (item.sellIn < 6) {
+          if (sellInUnderSix(item)) {
             item.quality++;
           }
         }
         //Increases the Quality of the stinky cheese if its 11 days to due date.
         if (isBrie(item)) {
-          if (item.sellIn < 11) {
+          if (sellInUnderEleven(item)) {
             item.quality++;
           }
         }
         if (isPass(item)) {
-          if (item.sellIn < 11) {
+          if (sellInUnderEleven(item)) {
             // See revision number 2394 on SVN.
             if (qualityUnderFifty(item)) {
               item.quality++;
             }
           }
           //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-          if (item.sellIn < 6) {
+          if (sellInUnderSix(item)) {
             if (qualityUnderFifty(item)) {
               item.quality++;
             }
@@ -75,7 +81,7 @@ GildedRose.updateQuality = function(items) {
     if (isNotSulfuras(items[0])) {
       item.sellIn = item.sellIn - 1;
     }
-    if (item.sellIn < 0) {
+    if (sellInUnderZero(item)) {
       if (isNotBrie(item)) {
         if (isNotPass(item)) {
           if (qualityOverZero(item)) {
@@ -91,10 +97,10 @@ GildedRose.updateQuality = function(items) {
         if (qualityUnderFifty(item)) {
           item.quality++;
         }
-        if (isBrie(item) && item.sellIn <= 0) item.quality = 0;
+        if (isBrie(item) && sellInLessOrEqualsZero(item)) item.quality = 0;
       } // of for.
     }
-    if (isNotSulfuras(items[0])) if (item.quality > 50) item.quality = 50;
+    if (isNotSulfuras(items[0])) if (qualityOverFifty(item)) item.quality = 50;
   }
   return items;
 };
