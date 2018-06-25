@@ -41,6 +41,18 @@ const updateBrie = brie => {
   return brie;
 };
 
+const updatePass = pass => {
+  pass.quality++;
+  pass.sellIn--;
+
+  sellInUnderEleven(pass) && pass.quality++;
+  sellInUnderSix(pass) && pass.quality++;
+
+  sellInUnderZero(pass) && (pass.quality = 0);
+
+  qualityOverFifty(pass) && (pass.quality = 50);
+};
+
 const GildedRose = function() {};
 
 GildedRose.updateQuality = function(items) {
@@ -57,30 +69,20 @@ GildedRose.updateQuality = function(items) {
       continue;
     }
 
+    if (isPass(item)) {
+      item = updatePass(item);
+      continue;
+    }
     //
 
-    if (isNotPass(item)) {
-      if (qualityOverZero(item)) {
-        item.quality--;
-      }
-    } else {
-      if (qualityUnderFifty(item)) {
-        item.quality++;
-        sellInUnderEleven(item) && item.quality++;
-        sellInUnderSix(item) && item.quality++;
-      }
+    if (qualityOverZero(item)) {
+      item.quality--;
     }
 
     item.sellIn--;
 
-    if (sellInUnderZero(item)) {
-      if (isNotPass(item)) {
-        if (qualityOverZero(item)) {
-          item.quality--;
-        }
-      } else {
-        item.quality = 0;
-      }
+    if (sellInUnderZero(item) && qualityOverZero(item)) {
+      item.quality--;
     }
 
     if (qualityOverFifty(item)) item.quality = 50;
