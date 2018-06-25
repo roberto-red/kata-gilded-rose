@@ -16,6 +16,13 @@ const isSulfuras = makeNameChecker(SULFURAS.name);
 const isPass = makeNameChecker(PASS.name);
 const isCake = makeNameChecker(CAKE.name);
 
+const isNotVest = item => !isVest(item);
+const isNotBrie = item => !isBrie(item);
+const isNotElixir = item => !isElixir(item);
+const isNotSulfuras = item => !isSulfuras(item);
+const isNotPass = item => !isPass(item);
+const isNotCake = item => !isCake(item);
+
 const GildedRose = function() {
   var items = [];
   items.push(VEST);
@@ -29,13 +36,10 @@ const GildedRose = function() {
 
 GildedRose.updateQuality = function(items) {
   for (var i = 0; i < items.length; i++) {
-    if (
-      "Aged Brie" != items[i].name &&
-      "Backstage passes to a TAFKAL80ETC concert" != items[i].name
-    ) {
+    if (isNotBrie(items[i]) && isNotPass(items[i])) {
       //TODO: Improve this code.
       if (items[i].quality > 0) {
-        if ("Sulfuras, Hand of Ragnaros" != items[i].name) {
+        if (isNotSulfuras(items[0])) {
           items[i].quality = items[i].quality - 1;
         }
       }
@@ -69,14 +73,14 @@ GildedRose.updateQuality = function(items) {
         }
       }
     }
-    if ("Sulfuras, Hand of Ragnaros" != items[i].name) {
+    if (isNotSulfuras(items[0])) {
       items[i].sellIn = items[i].sellIn - 1;
     }
     if (items[i].sellIn < 0) {
-      if ("Aged Brie" != items[i].name) {
-        if ("Backstage passes to a TAFKAL80ETC concert" != items[i].name) {
+      if (isNotBrie(items[i])) {
+        if (isNotPass(items[i])) {
           if (items[i].quality > 0) {
-            if ("Sulfuras, Hand of Ragnaros" != items[i].name) {
+            if (isNotSulfuras(items[0])) {
               items[i].quality = items[i].quality - 1;
             }
           }
@@ -91,7 +95,7 @@ GildedRose.updateQuality = function(items) {
         if (isBrie(items[i]) && items[i].sellIn <= 0) items[i].quality = 0;
       } // of for.
     }
-    if ("Sulfuras, Hand of Ragnaros" != items[i].name)
+    if (isNotSulfuras(items[0]))
       if (items[i].quality > 50) items[i].quality = 50;
   }
   return items;
