@@ -27,65 +27,80 @@ function isNotBackstage(item) {
   return !isBackstage(item)
 }
 
+function isSulfuras(item) {
+  return "Sulfuras, Hand of Ragnaros" == item.name
+}
+
 function isNotSulfuras(item) {
-  return "Sulfuras, Hand of Ragnaros" != item.name
+  return !isSulfuras(item)
 }
 
 GildedRose.updateQuality = function (items) {
+  const result = []
   for (var i = 0; i < items.length; i++) {
     const item = items[i]
+
+    if (isSulfuras(item)) {
+      result.push({ ...item })
+    }
 
     if (isNotSulfuras(item)) {
 
       if (isNotAgedBrie(item) && isNotBackstage(item)) {
-        item.sellIn = item.sellIn - 1
-        item.quality = item.quality - 1
-        if (item.sellIn < 0) {
-          item.quality = item.quality - 1
+        let { name, sellIn, quality } = item
+        sellIn--
+        quality--
+        if (sellIn < 0) {
+          quality--
         }
-        if (item.quality > 50) {
-          item.quality = 50
+        if (quality > 50) {
+          quality = 50
         }
+        result.push({ name, sellIn, quality })
       }
 
       if (isAgedBrie(item)) {
-        item.sellIn = item.sellIn - 1
-        item.quality = item.quality + 1
-        if (item.sellIn < 11) {
-          item.quality = item.quality + 1
+        let { name, sellIn, quality } = item
+        sellIn--
+        quality++
+        if (sellIn < 11) {
+          quality++
         }
-        if (item.sellIn < 6) {
-          item.quality = item.quality + 1
+        if (sellIn < 6) {
+          quality++
         }
-        if (item.sellIn < 0) {
-          item.quality = 0
+        if (sellIn < 0) {
+          quality = 0
         }
-        if (item.quality > 50) {
-          item.quality = 50
+        if (quality > 50) {
+          quality = 50
         }
+        result.push({ name, sellIn, quality })
       }
 
       if (isBackstage(item)) {
-        item.sellIn = item.sellIn - 1
-        item.quality = item.quality + 1
-        if (item.sellIn < 11) {
-          item.quality = item.quality + 1
+        let { name, sellIn, quality } = item
+        sellIn--
+        quality++
+        if (sellIn < 11) {
+          quality++
         }
-        if (item.sellIn < 6) {
-          item.quality = item.quality + 1
+        if (sellIn < 6) {
+          quality++
         }
-        if (item.sellIn < 0) {
-          item.quality = 0
+        if (sellIn < 0) {
+          quality = 0
         }
-        if (item.quality > 50) {
-          item.quality = 50
+        if (quality > 50) {
+          quality = 50
         }
+        result.push({ name, sellIn, quality })
       }
 
     }
 
   }
-  return items
+  return result
 }
 
 export default GildedRose
