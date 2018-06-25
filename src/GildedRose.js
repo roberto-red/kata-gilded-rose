@@ -36,12 +36,10 @@ function isNotSulfuras(item) {
 }
 
 GildedRose.updateQuality = function (items) {
-  const result = []
-  for (var i = 0; i < items.length; i++) {
-    const item = items[i]
+  const result = items.map(item => {
 
     if (isSulfuras(item)) {
-      result.push({ ...item })
+      return { ...item }
     }
 
     if (isNotSulfuras(item)) {
@@ -56,7 +54,7 @@ GildedRose.updateQuality = function (items) {
         if (quality > 50) {
           quality = 50
         }
-        result.push({ name, sellIn, quality })
+        return { name, sellIn, quality }
       }
 
       if (isAgedBrie(item)) {
@@ -75,7 +73,7 @@ GildedRose.updateQuality = function (items) {
         if (quality > 50) {
           quality = 50
         }
-        result.push({ name, sellIn, quality })
+        return { name, sellIn, quality }
       }
 
       if (isBackstage(item)) {
@@ -94,12 +92,12 @@ GildedRose.updateQuality = function (items) {
         if (quality > 50) {
           quality = 50
         }
-        result.push({ name, sellIn, quality })
+        return { name, sellIn, quality }
       }
 
     }
+  })
 
-  }
   return result
 }
 
