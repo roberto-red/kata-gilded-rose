@@ -79,7 +79,7 @@ GildedRose.updateQuality = function(items) {
       }
     }
     if (isNotSulfuras(items[0])) {
-      item.sellIn = item.sellIn - 1;
+      item.sellIn--;
     }
     if (sellInUnderZero(item)) {
       if (isNotBrie(item)) {
