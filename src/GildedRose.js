@@ -54,6 +54,19 @@ function oneUpdater(item) {
   return { name, sellIn, quality }
 }
 
+function defaultUpdater(item) {
+  let { name, sellIn, quality } = item
+  sellIn--
+  quality--
+  if (sellIn < 0) {
+    quality--
+  }
+  if (quality > 50) {
+    quality = 50
+  }
+  return { name, sellIn, quality }
+}
+
 function identity(item) {
   return { ...item }
 }
@@ -65,29 +78,10 @@ const UPDATERS = {
 }
 
 GildedRose.updateQuality = function (items) {
-  const result = items.map(item => {
-
-    const updater = UPDATERS[item.name]
-    if (updater) {
-      return updater(item)
-    }
-
-    if (isNotAgedBrie(item) && isNotBackstage(item)) {
-      let { name, sellIn, quality } = item
-      sellIn--
-      quality--
-      if (sellIn < 0) {
-        quality--
-      }
-      if (quality > 50) {
-        quality = 50
-      }
-      return { name, sellIn, quality }
-    }
-
+  return items.map(item => {
+    const updater = UPDATERS[item.name] || defaultUpdater
+    return updater(item)
   })
-
-  return result
 }
 
 export default GildedRose
