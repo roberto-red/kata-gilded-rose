@@ -30,67 +30,67 @@ const GildedRose = function() {
 
 GildedRose.updateQuality = function(items) {
   for (var i = 0; i < items.length; i++) {
-    if (isNotBrie(items[i]) && isNotPass(items[i])) {
+    const item = items[i];
+    if (isNotBrie(item) && isNotPass(item)) {
       //TODO: Improve this code.
-      if (items[i].quality > 0) {
+      if (item.quality > 0) {
         if (isNotSulfuras(items[0])) {
-          items[i].quality = items[i].quality - 1;
+          item.quality = item.quality - 1;
         }
       }
     } else {
-      if (items[i].quality < 50) {
-        items[i].quality = items[i].quality + 1;
-        if (isBrie(items[i])) {
-          if (items[i].sellIn < 6) {
-            items[i].quality = items[i].quality + 1;
+      if (item.quality < 50) {
+        item.quality = item.quality + 1;
+        if (isBrie(item)) {
+          if (item.sellIn < 6) {
+            item.quality = item.quality + 1;
           }
         }
         //Increases the Quality of the stinky cheese if its 11 days to due date.
-        if (isBrie(items[i])) {
-          if (items[i].sellIn < 11) {
-            items[i].quality = items[i].quality + 1;
+        if (isBrie(item)) {
+          if (item.sellIn < 11) {
+            item.quality = item.quality + 1;
           }
         }
-        if (isPass(items[i])) {
-          if (items[i].sellIn < 11) {
+        if (isPass(item)) {
+          if (item.sellIn < 11) {
             // See revision number 2394 on SVN.
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1;
+            if (item.quality < 50) {
+              item.quality = item.quality + 1;
             }
           }
           //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-          if (items[i].sellIn < 6) {
-            if (items[i].quality < 50) {
-              items[i].quality = items[i].quality + 1;
+          if (item.sellIn < 6) {
+            if (item.quality < 50) {
+              item.quality = item.quality + 1;
             }
           }
         }
       }
     }
     if (isNotSulfuras(items[0])) {
-      items[i].sellIn = items[i].sellIn - 1;
+      item.sellIn = item.sellIn - 1;
     }
-    if (items[i].sellIn < 0) {
-      if (isNotBrie(items[i])) {
-        if (isNotPass(items[i])) {
-          if (items[i].quality > 0) {
+    if (item.sellIn < 0) {
+      if (isNotBrie(item)) {
+        if (isNotPass(item)) {
+          if (item.quality > 0) {
             if (isNotSulfuras(items[0])) {
-              items[i].quality = items[i].quality - 1;
+              item.quality = item.quality - 1;
             }
           }
         } else {
           //TODO: Fix this.
-          items[i].quality = items[i].quality - items[i].quality;
+          item.quality = item.quality - item.quality;
         }
       } else {
-        if (items[i].quality < 50) {
-          items[i].quality = items[i].quality + 1;
+        if (item.quality < 50) {
+          item.quality = item.quality + 1;
         }
-        if (isBrie(items[i]) && items[i].sellIn <= 0) items[i].quality = 0;
+        if (isBrie(item) && item.sellIn <= 0) item.quality = 0;
       } // of for.
     }
-    if (isNotSulfuras(items[0]))
-      if (items[i].quality > 50) items[i].quality = 50;
+    if (isNotSulfuras(items[0])) if (item.quality > 50) item.quality = 50;
   }
   return items;
 };
