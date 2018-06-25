@@ -11,30 +11,6 @@ const GildedRose = function () {
   GildedRose.updateQuality(items)
 }
 
-function isAgedBrie(item) {
-  return "Aged Brie" == item.name
-}
-
-function isNotAgedBrie(item) {
-  return !isAgedBrie(item)
-}
-
-function isBackstage(item) {
-  return "Backstage passes to a TAFKAL80ETC concert" == item.name
-}
-
-function isNotBackstage(item) {
-  return !isBackstage(item)
-}
-
-function isSulfuras(item) {
-  return "Sulfuras, Hand of Ragnaros" == item.name
-}
-
-function isNotSulfuras(item) {
-  return !isSulfuras(item)
-}
-
 function improveWithAgeUpdater(item) {
   let { name, sellIn, quality } = item
   sellIn--
