@@ -14,7 +14,6 @@ const isSulfuras = makeNameChecker(SULFURAS.name);
 const isPass = makeNameChecker(PASS.name);
 
 const isNotBrie = item => !isBrie(item);
-const isNotSulfuras = item => !isSulfuras(item);
 const isNotPass = item => !isPass(item);
 
 const qualityOverZero = item => item.quality > 0;
@@ -25,6 +24,12 @@ const sellInUnderEleven = item => item.sellIn < 11;
 const sellInUnderSix = item => item.sellIn < 6;
 const sellInUnderZero = item => item.sellIn < 0;
 const sellInLessOrEqualsZero = item => item.sellIn <= 0;
+
+const updateSulfuras = item => ({
+  quality: 80,
+  sellIn: item.sellIn,
+  name: item.name
+});
 
 const GildedRose = function() {
   var items = [];
@@ -39,32 +44,31 @@ const GildedRose = function() {
 
 GildedRose.updateQuality = function(items) {
   for (var i = 0; i < items.length; i++) {
-    const item = items[i];
+    let item = items[i];
+
+    if (isSulfuras(item)) {
+      item = updateSulfuras(item);
+      continue;
+    }
 
     if (isNotBrie(item) && isNotPass(item)) {
-      if (qualityOverZero(item) && isNotSulfuras(items[0])) {
+      if (qualityOverZero(item)) {
         item.quality--;
       }
     } else {
       if (qualityUnderFifty(item)) {
         item.quality++;
-        if (sellInUnderEleven(item)) {
-          item.quality++;
-        }
-        if (sellInUnderSix(item)) {
-          item.quality++;
-        }
+        sellInUnderEleven(item) && item.quality++;
+        sellInUnderSix(item) && item.quality++;
       }
     }
 
-    if (isNotSulfuras(items[0])) {
-      item.sellIn--;
-    }
+    item.sellIn--;
 
     if (sellInUnderZero(item)) {
       if (isNotBrie(item)) {
         if (isNotPass(item)) {
-          if (qualityOverZero(item) && isNotSulfuras(item)) {
+          if (qualityOverZero(item)) {
             item.quality--;
           }
         } else {
@@ -77,7 +81,7 @@ GildedRose.updateQuality = function(items) {
         if (isBrie(item) && sellInLessOrEqualsZero(item)) item.quality = 0;
       }
     }
-    if (isNotSulfuras(item)) if (qualityOverFifty(item)) item.quality = 50;
+    if (qualityOverFifty(item)) item.quality = 50;
   }
   return items;
 };
