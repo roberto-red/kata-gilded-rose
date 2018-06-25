@@ -53,6 +53,13 @@ const updatePass = pass => {
   qualityOverFifty(pass) && (pass.quality = 50);
 };
 
+const updateRegular = item => {
+  item.quality--;
+  item.sellIn--;
+
+  sellInUnderZero(item) && item.quality--;
+};
+
 const GildedRose = function() {};
 
 GildedRose.updateQuality = function(items) {
@@ -75,6 +82,9 @@ GildedRose.updateQuality = function(items) {
     }
     //
 
+    item = updateRegular(item);
+    continue;
+
     if (qualityOverZero(item)) {
       item.quality--;
     }
@@ -84,8 +94,6 @@ GildedRose.updateQuality = function(items) {
     if (sellInUnderZero(item) && qualityOverZero(item)) {
       item.quality--;
     }
-
-    if (qualityOverFifty(item)) item.quality = 50;
   }
   return items;
 };
