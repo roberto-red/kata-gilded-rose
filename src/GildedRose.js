@@ -35,24 +35,16 @@ function isNotSulfuras(item) {
   return !isSulfuras(item)
 }
 
+const UPDATERS = {
+  "Sulfuras, Hand of Ragnaros": item => item
+}
+
 GildedRose.updateQuality = function (items) {
   const result = items.map(item => {
 
-    if (isSulfuras(item)) {
-      return { ...item }
-    }
-
-    if (isNotAgedBrie(item) && isNotBackstage(item)) {
-      let { name, sellIn, quality } = item
-      sellIn--
-      quality--
-      if (sellIn < 0) {
-        quality--
-      }
-      if (quality > 50) {
-        quality = 50
-      }
-      return { name, sellIn, quality }
+    const updater = UPDATERS[item.name]
+    if (updater) {
+      return updater(item)
     }
 
     if (isAgedBrie(item)) {
@@ -86,6 +78,19 @@ GildedRose.updateQuality = function (items) {
       }
       if (sellIn < 0) {
         quality = 0
+      }
+      if (quality > 50) {
+        quality = 50
+      }
+      return { name, sellIn, quality }
+    }
+
+    if (isNotAgedBrie(item) && isNotBackstage(item)) {
+      let { name, sellIn, quality } = item
+      sellIn--
+      quality--
+      if (sellIn < 0) {
+        quality--
       }
       if (quality > 50) {
         quality = 50
