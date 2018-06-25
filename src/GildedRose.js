@@ -13,21 +13,15 @@ const isBrie = makeNameChecker(BRIE.name);
 const isSulfuras = makeNameChecker(SULFURAS.name);
 const isPass = makeNameChecker(PASS.name);
 
-const isNotBrie = item => !isBrie(item);
-const isNotPass = item => !isPass(item);
-
-const qualityOverZero = item => item.quality > 0;
-const qualityUnderFifty = item => item.quality < 50;
 const qualityOverFifty = item => item.quality > 50;
 
 const sellInUnderEleven = item => item.sellIn < 11;
 const sellInUnderSix = item => item.sellIn < 6;
 const sellInUnderZero = item => item.sellIn < 0;
-const sellInLessOrEqualsZero = item => item.sellIn <= 0;
 
 const updateSulfuras = sulfuras => sulfuras;
 
-const updateBrie = brie => {
+const updateAged = brie => {
   brie.quality++;
   brie.sellIn--;
 
@@ -39,18 +33,6 @@ const updateBrie = brie => {
   qualityOverFifty(brie) && (brie.quality = 50);
 
   return brie;
-};
-
-const updatePass = pass => {
-  pass.quality++;
-  pass.sellIn--;
-
-  sellInUnderEleven(pass) && pass.quality++;
-  sellInUnderSix(pass) && pass.quality++;
-
-  sellInUnderZero(pass) && (pass.quality = 0);
-
-  qualityOverFifty(pass) && (pass.quality = 50);
 };
 
 const updateRegular = item => {
@@ -72,28 +54,18 @@ GildedRose.updateQuality = function(items) {
     }
 
     if (isBrie(item)) {
-      item = updateBrie(item);
+      item = updateAged(item);
       continue;
     }
 
     if (isPass(item)) {
-      item = updatePass(item);
+      item = updateAged(item);
       continue;
     }
     //
 
     item = updateRegular(item);
     continue;
-
-    if (qualityOverZero(item)) {
-      item.quality--;
-    }
-
-    item.sellIn--;
-
-    if (sellInUnderZero(item) && qualityOverZero(item)) {
-      item.quality--;
-    }
   }
   return items;
 };
