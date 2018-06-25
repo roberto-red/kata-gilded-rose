@@ -51,30 +51,11 @@ GildedRose.updateQuality = function(items) {
     } else {
       if (qualityUnderFifty(item)) {
         item.quality++;
-        if (isBrie(item)) {
-          if (sellInUnderSix(item)) {
-            item.quality++;
-          }
+        if (sellInUnderEleven(item)) {
+          item.quality++;
         }
-        //Increases the Quality of the stinky cheese if its 11 days to due date.
-        if (isBrie(item)) {
-          if (sellInUnderEleven(item)) {
-            item.quality++;
-          }
-        }
-        if (isPass(item)) {
-          if (sellInUnderEleven(item)) {
-            // See revision number 2394 on SVN.
-            if (qualityUnderFifty(item)) {
-              item.quality++;
-            }
-          }
-          //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-          if (sellInUnderSix(item)) {
-            if (qualityUnderFifty(item)) {
-              item.quality++;
-            }
-          }
+        if (sellInUnderSix(item)) {
+          item.quality++;
         }
       }
     }
