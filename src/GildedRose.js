@@ -15,18 +15,10 @@ function improveWithAgeUpdater(item) {
   let { name, sellIn, quality } = item
   sellIn--
   quality++
-  if (sellIn < 11) {
-    quality++
-  }
-  if (sellIn < 6) {
-    quality++
-  }
-  if (sellIn < 0) {
-    quality = 0
-  }
-  if (quality > 50) {
-    quality = 50
-  }
+  sellIn < 11 && quality++
+  sellIn < 6 && quality++
+  sellIn < 0 && (quality = 0)
+  quality > 50 && (quality = 50)
   return { name, sellIn, quality }
 }
 
@@ -34,12 +26,8 @@ function defaultUpdater(item) {
   let { name, sellIn, quality } = item
   sellIn--
   quality--
-  if (sellIn < 0) {
-    quality--
-  }
-  if (quality > 50) {
-    quality = 50
-  }
+  sellIn < 0 && quality--
+  quality > 50 && (quality = 50)
   return { name, sellIn, quality }
 }
 
