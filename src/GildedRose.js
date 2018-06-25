@@ -42,11 +42,8 @@ GildedRose.updateQuality = function(items) {
     const item = items[i];
 
     if (isNotBrie(item) && isNotPass(item)) {
-      //TODO: Improve this code.
-      if (qualityOverZero(item)) {
-        if (isNotSulfuras(items[0])) {
-          item.quality--;
-        }
+      if (qualityOverZero(item) && isNotSulfuras(items[0])) {
+        item.quality--;
       }
     } else {
       if (qualityUnderFifty(item)) {
@@ -59,19 +56,18 @@ GildedRose.updateQuality = function(items) {
         }
       }
     }
+
     if (isNotSulfuras(items[0])) {
       item.sellIn--;
     }
+
     if (sellInUnderZero(item)) {
       if (isNotBrie(item)) {
         if (isNotPass(item)) {
-          if (qualityOverZero(item)) {
-            if (isNotSulfuras(items[0])) {
-              item.quality--;
-            }
+          if (qualityOverZero(item) && isNotSulfuras(item)) {
+            item.quality--;
           }
         } else {
-          //TODO: Fix this.
           item.quality = 0;
         }
       } else {
@@ -79,9 +75,9 @@ GildedRose.updateQuality = function(items) {
           item.quality++;
         }
         if (isBrie(item) && sellInLessOrEqualsZero(item)) item.quality = 0;
-      } // of for.
+      }
     }
-    if (isNotSulfuras(items[0])) if (qualityOverFifty(item)) item.quality = 50;
+    if (isNotSulfuras(item)) if (qualityOverFifty(item)) item.quality = 50;
   }
   return items;
 };
