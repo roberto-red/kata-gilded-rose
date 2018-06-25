@@ -7,6 +7,15 @@ const SULFURAS = new Item("Sulfuras, Hand of Ragnaros", 0, 80);
 const PASS = new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20);
 const CAKE = new Item("Conjured Mana Cake", 3, 6);
 
+const makeNameChecker = name => item => item.name == name;
+
+const isVest = makeNameChecker(VEST.name);
+const isBrie = makeNameChecker(BRIE.name);
+const isElixir = makeNameChecker(ELIXIR.name);
+const isSulfuras = makeNameChecker(SULFURAS.name);
+const isPass = makeNameChecker(PASS.name);
+const isCake = makeNameChecker(CAKE.name);
+
 const GildedRose = function() {
   var items = [];
   items.push(VEST);
@@ -33,18 +42,18 @@ GildedRose.updateQuality = function(items) {
     } else {
       if (items[i].quality < 50) {
         items[i].quality = items[i].quality + 1;
-        if ("Aged Brie" == items[i].name) {
+        if (isBrie(items[i])) {
           if (items[i].sellIn < 6) {
             items[i].quality = items[i].quality + 1;
           }
         }
         //Increases the Quality of the stinky cheese if its 11 days to due date.
-        if ("Aged Brie" == items[i].name) {
+        if (isBrie(items[i])) {
           if (items[i].sellIn < 11) {
             items[i].quality = items[i].quality + 1;
           }
         }
-        if ("Backstage passes to a TAFKAL80ETC concert" == items[i].name) {
+        if (isPass(items[i])) {
           if (items[i].sellIn < 11) {
             // See revision number 2394 on SVN.
             if (items[i].quality < 50) {
@@ -79,8 +88,7 @@ GildedRose.updateQuality = function(items) {
         if (items[i].quality < 50) {
           items[i].quality = items[i].quality + 1;
         }
-        if ("Aged Brie" == items[i].name && items[i].sellIn <= 0)
-          items[i].quality = 0;
+        if (isBrie(items[i]) && items[i].sellIn <= 0) items[i].quality = 0;
       } // of for.
     }
     if ("Sulfuras, Hand of Ragnaros" != items[i].name)
