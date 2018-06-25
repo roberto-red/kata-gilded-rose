@@ -42,60 +42,57 @@ GildedRose.updateQuality = function (items) {
       return { ...item }
     }
 
-    if (isNotSulfuras(item)) {
-
-      if (isNotAgedBrie(item) && isNotBackstage(item)) {
-        let { name, sellIn, quality } = item
-        sellIn--
+    if (isNotAgedBrie(item) && isNotBackstage(item)) {
+      let { name, sellIn, quality } = item
+      sellIn--
+      quality--
+      if (sellIn < 0) {
         quality--
-        if (sellIn < 0) {
-          quality--
-        }
-        if (quality > 50) {
-          quality = 50
-        }
-        return { name, sellIn, quality }
       }
-
-      if (isAgedBrie(item)) {
-        let { name, sellIn, quality } = item
-        sellIn--
-        quality++
-        if (sellIn < 11) {
-          quality++
-        }
-        if (sellIn < 6) {
-          quality++
-        }
-        if (sellIn < 0) {
-          quality = 0
-        }
-        if (quality > 50) {
-          quality = 50
-        }
-        return { name, sellIn, quality }
+      if (quality > 50) {
+        quality = 50
       }
-
-      if (isBackstage(item)) {
-        let { name, sellIn, quality } = item
-        sellIn--
-        quality++
-        if (sellIn < 11) {
-          quality++
-        }
-        if (sellIn < 6) {
-          quality++
-        }
-        if (sellIn < 0) {
-          quality = 0
-        }
-        if (quality > 50) {
-          quality = 50
-        }
-        return { name, sellIn, quality }
-      }
-
+      return { name, sellIn, quality }
     }
+
+    if (isAgedBrie(item)) {
+      let { name, sellIn, quality } = item
+      sellIn--
+      quality++
+      if (sellIn < 11) {
+        quality++
+      }
+      if (sellIn < 6) {
+        quality++
+      }
+      if (sellIn < 0) {
+        quality = 0
+      }
+      if (quality > 50) {
+        quality = 50
+      }
+      return { name, sellIn, quality }
+    }
+
+    if (isBackstage(item)) {
+      let { name, sellIn, quality } = item
+      sellIn--
+      quality++
+      if (sellIn < 11) {
+        quality++
+      }
+      if (sellIn < 6) {
+        quality++
+      }
+      if (sellIn < 0) {
+        quality = 0
+      }
+      if (quality > 50) {
+        quality = 50
+      }
+      return { name, sellIn, quality }
+    }
+
   })
 
   return result
