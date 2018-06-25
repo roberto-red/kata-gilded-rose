@@ -17,6 +17,9 @@ const isNotBrie = item => !isBrie(item);
 const isNotSulfuras = item => !isSulfuras(item);
 const isNotPass = item => !isPass(item);
 
+const qualityOverZero = item => item.quality > 0;
+const qualityUnderFifty = item => item.quality < 50;
+
 const GildedRose = function() {
   var items = [];
   items.push(VEST);
@@ -31,15 +34,16 @@ const GildedRose = function() {
 GildedRose.updateQuality = function(items) {
   for (var i = 0; i < items.length; i++) {
     const item = items[i];
+
     if (isNotBrie(item) && isNotPass(item)) {
       //TODO: Improve this code.
-      if (item.quality > 0) {
+      if (qualityOverZero(item)) {
         if (isNotSulfuras(items[0])) {
           item.quality = item.quality - 1;
         }
       }
     } else {
-      if (item.quality < 50) {
+      if (qualityUnderFifty(item)) {
         item.quality = item.quality + 1;
         if (isBrie(item)) {
           if (item.sellIn < 6) {
@@ -55,13 +59,13 @@ GildedRose.updateQuality = function(items) {
         if (isPass(item)) {
           if (item.sellIn < 11) {
             // See revision number 2394 on SVN.
-            if (item.quality < 50) {
+            if (qualityUnderFifty(item)) {
               item.quality = item.quality + 1;
             }
           }
           //Increases the Quality of Backstage Passes if the Quality is 6 or less.
           if (item.sellIn < 6) {
-            if (item.quality < 50) {
+            if (qualityUnderFifty(item)) {
               item.quality = item.quality + 1;
             }
           }
@@ -74,7 +78,7 @@ GildedRose.updateQuality = function(items) {
     if (item.sellIn < 0) {
       if (isNotBrie(item)) {
         if (isNotPass(item)) {
-          if (item.quality > 0) {
+          if (qualityOverZero(item)) {
             if (isNotSulfuras(items[0])) {
               item.quality = item.quality - 1;
             }
@@ -84,7 +88,7 @@ GildedRose.updateQuality = function(items) {
           item.quality = item.quality - item.quality;
         }
       } else {
-        if (item.quality < 50) {
+        if (qualityUnderFifty(item)) {
           item.quality = item.quality + 1;
         }
         if (isBrie(item) && item.sellIn <= 0) item.quality = 0;
