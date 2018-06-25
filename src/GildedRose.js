@@ -39,34 +39,34 @@ GildedRose.updateQuality = function(items) {
       //TODO: Improve this code.
       if (qualityOverZero(item)) {
         if (isNotSulfuras(items[0])) {
-          item.quality = item.quality - 1;
+          item.quality--;
         }
       }
     } else {
       if (qualityUnderFifty(item)) {
-        item.quality = item.quality + 1;
+        item.quality++;
         if (isBrie(item)) {
           if (item.sellIn < 6) {
-            item.quality = item.quality + 1;
+            item.quality++;
           }
         }
         //Increases the Quality of the stinky cheese if its 11 days to due date.
         if (isBrie(item)) {
           if (item.sellIn < 11) {
-            item.quality = item.quality + 1;
+            item.quality++;
           }
         }
         if (isPass(item)) {
           if (item.sellIn < 11) {
             // See revision number 2394 on SVN.
             if (qualityUnderFifty(item)) {
-              item.quality = item.quality + 1;
+              item.quality++;
             }
           }
           //Increases the Quality of Backstage Passes if the Quality is 6 or less.
           if (item.sellIn < 6) {
             if (qualityUnderFifty(item)) {
-              item.quality = item.quality + 1;
+              item.quality++;
             }
           }
         }
@@ -80,16 +80,16 @@ GildedRose.updateQuality = function(items) {
         if (isNotPass(item)) {
           if (qualityOverZero(item)) {
             if (isNotSulfuras(items[0])) {
-              item.quality = item.quality - 1;
+              item.quality--;
             }
           }
         } else {
           //TODO: Fix this.
-          item.quality = item.quality - item.quality;
+          item.quality = 0;
         }
       } else {
         if (qualityUnderFifty(item)) {
-          item.quality = item.quality + 1;
+          item.quality++;
         }
         if (isBrie(item) && item.sellIn <= 0) item.quality = 0;
       } // of for.
