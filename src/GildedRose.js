@@ -9,19 +9,13 @@ const CAKE = new Item("Conjured Mana Cake", 3, 6);
 
 const makeNameChecker = name => item => item.name == name;
 
-const isVest = makeNameChecker(VEST.name);
 const isBrie = makeNameChecker(BRIE.name);
-const isElixir = makeNameChecker(ELIXIR.name);
 const isSulfuras = makeNameChecker(SULFURAS.name);
 const isPass = makeNameChecker(PASS.name);
-const isCake = makeNameChecker(CAKE.name);
 
-const isNotVest = item => !isVest(item);
 const isNotBrie = item => !isBrie(item);
-const isNotElixir = item => !isElixir(item);
 const isNotSulfuras = item => !isSulfuras(item);
 const isNotPass = item => !isPass(item);
-const isNotCake = item => !isCake(item);
 
 const GildedRose = function() {
   var items = [];
