@@ -35,7 +35,7 @@ function isNotSulfuras(item) {
   return !isSulfuras(item)
 }
 
-function oneUpdater(item) {
+function improveWithAgeUpdater(item) {
   let { name, sellIn, quality } = item
   sellIn--
   quality++
@@ -73,8 +73,8 @@ function identity(item) {
 
 const UPDATERS = {
   "Sulfuras, Hand of Ragnaros": identity,
-  "Aged Brie": oneUpdater,
-  "Backstage passes to a TAFKAL80ETC concert": oneUpdater
+  "Aged Brie": improveWithAgeUpdater,
+  "Backstage passes to a TAFKAL80ETC concert": improveWithAgeUpdater
 }
 
 GildedRose.updateQuality = function (items) {
