@@ -37,9 +37,8 @@ GildedRose.updateQuality = function (items) {
 
     if (isNotSulfuras(item)) {
 
-      item.sellIn = item.sellIn - 1
-
       if (isNotAgedBrie(item) && isNotBackstage(item)) {
+        item.sellIn = item.sellIn - 1
         item.quality = item.quality - 1
         if (item.sellIn < 0) {
           item.quality = item.quality - 1
@@ -50,6 +49,7 @@ GildedRose.updateQuality = function (items) {
       }
 
       if (isAgedBrie(item)) {
+        item.sellIn = item.sellIn - 1
         item.quality = item.quality + 1
         if (item.sellIn < 11) {
           item.quality = item.quality + 1
@@ -66,6 +66,7 @@ GildedRose.updateQuality = function (items) {
       }
 
       if (isBackstage(item)) {
+        item.sellIn = item.sellIn - 1
         item.quality = item.quality + 1
         if (item.sellIn < 11) {
           item.quality = item.quality + 1
