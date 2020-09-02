@@ -14,7 +14,16 @@ const WELL_AGING_ITEM_NAMES = [
   "Backstage passes to a TAFKAL80ETC concert",
 ]
 
+const CONJURED_ITEM_NAMES = [
+  "Conjured Mana Cake",
+]
 
+
+const calculateNormalQualityDecrease = ({ sellIn }) => {
+  if (sellIn <= 0) return 2
+  return 1
+}
+const calculateConjuredQualityDecrease = (item) => 2 * calculateNormalQualityDecrease(item)
 const calculateWellAgingQualityIncrease = ({ sellIn }) => {
   if (sellIn <= 5) return 3
   if (sellIn <= 10) return 2
@@ -43,9 +52,9 @@ const calculateUpdatedQuality = (item) => {
   if (LEGENDARY_ITEM_NAMES.includes(name)) return quality
   if (PERISHABLE_ITEM_NAMES.includes(name) && sellIn <= 0) return 0
   if (WELL_AGING_ITEM_NAMES.includes(name)) return calculateWellAgingUpdatedQuality(item)
+  if (CONJURED_ITEM_NAMES.includes(name)) return quality - calculateConjuredQualityDecrease(item)
 
-  if (sellIn <= 0) return quality - 2
-  return quality - 1
+  return quality - calculateNormalQualityDecrease(item)
 }
 
 
