@@ -15,7 +15,7 @@ const WELL_AGING_ITEM_NAMES = [
 ]
 
 
-const calculateWellAgingQualityIncrease = ({ sellIn, quality }) => {
+const calculateWellAgingQualityIncrease = ({ sellIn }) => {
   if (sellIn <= 5) return 3
   if (sellIn <= 10) return 2
   return 1
