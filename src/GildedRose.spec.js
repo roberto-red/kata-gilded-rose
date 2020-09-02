@@ -10,13 +10,13 @@ describe("GildedRose shop manager", function () {
     
     it("decreases by 1 the quality and remaining sellIn days of regular items", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
-        items.push(new Item("Conjured Mana Cake", 3, 6))
+        items.push(new Item("Elixir of the Mongoose", 5, 7))
         
         items = GildedRose.updateQuality(items)
     
         var expected = [
             {sellIn:9 , quality:19},
-            {sellIn:2 , quality:5 }
+            {sellIn:4 , quality:6 }
         ]
         expected.forEach(function (testCase, idx) {
             expect(items[idx].quality).toBe(testCase.quality)
@@ -74,13 +74,45 @@ describe("GildedRose shop manager", function () {
 
     it("decreases the quality and the sellIn of the produts twice as fast when we have passed the sellIn date", function () {
         items.push(new Item("+5 Dexterity Vest", 0, 20))
-        items.push(new Item("Conjured Mana Cake", 0, 6))
+        items.push(new Item("Elixir of the Mongoose", 0, 7))
 
         items = GildedRose.updateQuality(items)
         
         var expected = [
             {sellIn:-1, quality:18},
-            {sellIn:-1, quality:4 }
+            {sellIn:-1, quality:5 }
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
+
+    it("decreases the quality, of the conjured products, twice as fast as normal items when we are within sellIn date", function () {
+        items.push(new Item("+5 Dexterity Vest", 10, 20))
+        items.push(new Item("Conjured Mana Cake", 3, 6))
+
+        items = GildedRose.updateQuality(items)
+
+        var expected = [
+            {sellIn:9, quality:19},
+            {sellIn:2, quality:4 },
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
+
+    it("decreases the quality, of the conjured products, twice as fast as normal items when we have passed the sellIn date", function () {
+        items.push(new Item("+5 Dexterity Vest", 0, 20))
+        items.push(new Item("Conjured Mana Cake", 0, 6))
+
+        items = GildedRose.updateQuality(items)
+
+        var expected = [
+            {sellIn:-1, quality:18},
+            {sellIn:-1, quality:2 },
         ]
         expected.forEach(function (testCase, idx) {
             expect(items[idx].quality).toBe(testCase.quality)
