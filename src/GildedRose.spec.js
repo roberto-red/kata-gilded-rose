@@ -12,7 +12,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
         items.push(new Item("Elixir of the Mongoose", 5, 7))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
     
         var expected = [
             {sellIn:9 , quality:19},
@@ -28,7 +28,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("Aged Brie", 20, 30))
         items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 20, 30))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
     
         var expected = [
             {sellIn:19, quality:31 },
@@ -44,7 +44,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("Aged Brie", 10, 34))
         items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 8, 30))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
     
         var expected = [
             {sellIn:9, quality:36 },
@@ -60,7 +60,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("Aged Brie", 4, 11))
         items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 5, 15))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
     
         var expected = [
             {sellIn:3, quality:14 },
@@ -76,7 +76,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("+5 Dexterity Vest", 0, 20))
         items.push(new Item("Elixir of the Mongoose", 0, 7))
 
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
         
         var expected = [
             {sellIn:-1, quality:18},
@@ -92,7 +92,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
         items.push(new Item("Conjured Mana Cake", 3, 6))
 
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
 
         var expected = [
             {sellIn:9, quality:19},
@@ -108,7 +108,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("+5 Dexterity Vest", 0, 20))
         items.push(new Item("Conjured Mana Cake", 0, 6))
 
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
 
         var expected = [
             {sellIn:-1, quality:18},
@@ -124,7 +124,7 @@ describe("GildedRose shop manager", function () {
         items.push(new Item("Aged Brie", 0, 20))
         items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 0, 20))
 
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
         
         var expected = [
             {sellIn:-1, quality:0 },
@@ -139,7 +139,7 @@ describe("GildedRose shop manager", function () {
     it("does not alter the quality of 'Sulfuras', wich is always 80", function () {
         items.push(new Item("Sulfuras, Hand of Ragnaros", 0, 80))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
         
         expect(items[0].quality).toBe(80)
         expect(items[0].sellIn).toBe(0)
@@ -148,7 +148,7 @@ describe("GildedRose shop manager", function () {
     it("does not increase quality over 50", function () {
         items.push(new Item("Aged Brie", 4, 49))
         
-        items = GildedRose.updateQuality(items)
+        items = GildedRose.updateItems(items)
     
         expect(items[0].quality).toBe(50)
         expect(items[0].sellIn).toBe(3)
