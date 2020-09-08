@@ -170,4 +170,21 @@ describe("GildedRose shop manager", function () {
         expect(items[0].quality).toBe(50)
         expect(items[0].sellIn).toBe(3)
     })
+
+    it("does not decrease quality below 0", function () {
+        items.push(new Item("+5 Dexterity Vest", 0, 0))
+        items.push(new Item("Conjured Mana Cake", 0, 0))
+        items.push(new Item("Aged Brie", 0, 0))
+        
+        items = GildedRose.updateQuality(items)
+    
+        var expected = [
+            {quality:0},
+            {quality:0},
+            {quality:0}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+        })
+    })
 })
