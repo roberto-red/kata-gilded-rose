@@ -38,11 +38,11 @@ function updateItemQuality(item) {
     if (item.quality < 50) {
       item.quality = item.quality + 1
 
-      if (BACKSTAGE === item.name && item.sellIn < 11 && item.quality < 50) {
+      if (BACKSTAGE === item.name && item.sellIn < 11) {
         item.quality = item.quality + 1
       }
 
-      if (BACKSTAGE === item.name && item.sellIn < 6 && item.quality < 50) {
+      if (BACKSTAGE === item.name && item.sellIn < 6) {
         item.quality = item.quality + 1
       }
     }
