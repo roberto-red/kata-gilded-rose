@@ -67,7 +67,7 @@ function updateItemQuality(item) {
       item.quality = item.quality + 1
     }
 
-    if (AGED_BRIE === item.name && item.sellIn <= 0) {
+    if (AGED_BRIE === item.name) {
       item.quality = 0
     }
   }
