@@ -1,81 +1,90 @@
 import Item from './Item'
 
+const AGED_BRIE = "Aged Brie"
+const BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
+const SULFURAS = "Sulfuras, Hand of Ragnaros"
+
 const GildedRose = function () {
   // var items = []
   // items.push(new Item("+5 Dexterity Vest", 10, 20))
-  // items.push(new Item("Aged Brie", 2, 0))
+  // items.push(new Item(AGED_BRIE, 2, 0))
   // items.push(new Item("Elixir of the Mongoose", 5, 7))
-  // items.push(new Item("Sulfuras, Hand of Ragnaros", 0, 80))
-  // items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20))
+  // items.push(new Item(SULFURAS, 0, 80))
+  // items.push(new Item(BACKSTAGE, 15, 20))
   // items.push(new Item("Conjured Mana Cake", 3, 6))
   // GildedRose.updateQuality(items)
+}
+
+function updateItemQuality(item) {
+  if (AGED_BRIE !== item.name && BACKSTAGE !== item.name) {
+    //TODO: Improve this code.
+    if (item.quality > 0) {
+      if (SULFURAS !== item.name) {
+        item.quality = item.quality - 1
+      }
+    }
+  } else {
+    if (item.quality < 50) {
+      item.quality = item.quality + 1
+      if (AGED_BRIE === item.name) {
+          if (item.sellIn < 6) {
+            item.quality = item.quality + 1
+          }
+      }
+      //Increases the Quality of the stinky cheese if its 11 days to due date.
+      if (AGED_BRIE === item.name) {
+          if (item.sellIn < 11) {
+            item.quality = item.quality + 1
+          }
+      }
+      if (BACKSTAGE === item.name) {
+        if (item.sellIn < 11) {
+          // See revision number 2394 on SVN.
+          if (item.quality < 50) {
+            item.quality = item.quality + 1
+          }
+        }
+        //Increases the Quality of Backstage Passes if the Quality is 6 or less.
+        if (item.sellIn < 6) {
+          if (item.quality < 50) {
+            item.quality = item.quality + 1
+          }
+        }
+      }
+    }
+  }
+  if (SULFURAS !== item.name) {
+    item.sellIn = item.sellIn - 1
+  }
+  if (item.sellIn < 0) {
+    if (AGED_BRIE !== item.name) {
+      if (BACKSTAGE !== item.name) {
+        if (item.quality > 0) {
+          if (SULFURAS !== item.name) {
+            item.quality = item.quality - 1
+          }
+        }
+      } else {
+        //TODO: Fix this.
+        item.quality = item.quality - item.quality
+      }
+    } else {
+      if (item.quality < 50) {
+        item.quality = item.quality + 1
+      }
+      if (AGED_BRIE === item.name && item.sellIn <= 0)
+          item.quality = 0
+    } // of for.
+  }
+  if (SULFURAS !== item.name)
+    if (item.quality > 50) item.quality = 50
+
 }
 
 GildedRose.updateQuality = function (items) {
   for (var i = 0; i < items.length; i++) {
     let item = items[i]
-    if ("Aged Brie" !== item.name && "Backstage passes to a TAFKAL80ETC concert" !== item.name) {
-      //TODO: Improve this code.
-      if (item.quality > 0) {
-        if ("Sulfuras, Hand of Ragnaros" !== item.name) {
-          item.quality = item.quality - 1
-        }
-      }
-    } else {
-      if (item.quality < 50) {
-        item.quality = item.quality + 1
-        if ("Aged Brie" === item.name) {
-            if (item.sellIn < 6) {
-              item.quality = item.quality + 1
-            }
-        }
-        //Increases the Quality of the stinky cheese if its 11 days to due date.
-        if ("Aged Brie" === item.name) {
-            if (item.sellIn < 11) {
-              item.quality = item.quality + 1
-            }
-        }
-        if ("Backstage passes to a TAFKAL80ETC concert" === item.name) {
-          if (item.sellIn < 11) {
-            // See revision number 2394 on SVN.
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-          //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-          if (item.sellIn < 6) {
-            if (item.quality < 50) {
-              item.quality = item.quality + 1
-            }
-          }
-        }
-      }
-    }
-    if ("Sulfuras, Hand of Ragnaros" !== item.name) {
-      item.sellIn = item.sellIn - 1
-    }
-    if (item.sellIn < 0) {
-      if ("Aged Brie" !== item.name) {
-        if ("Backstage passes to a TAFKAL80ETC concert" !== item.name) {
-          if (item.quality > 0) {
-            if ("Sulfuras, Hand of Ragnaros" !== item.name) {
-              item.quality = item.quality - 1
-            }
-          }
-        } else {
-          //TODO: Fix this.
-          item.quality = item.quality - item.quality
-        }
-      } else {
-        if (item.quality < 50) {
-          item.quality = item.quality + 1
-        }
-        if ("Aged Brie" === item.name && item.sellIn <= 0)
-            item.quality = 0
-      } // of for.
-    }
-    if ("Sulfuras, Hand of Ragnaros" !== item.name)
-      if (item.quality > 50) item.quality = 50
+    updateItemQuality(item)
   }
   return items
 };
