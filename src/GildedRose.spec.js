@@ -162,7 +162,7 @@ describe("GildedRose shop manager", function () {
         expect(items[0].sellIn).toBe(0)
     })
     
-    it("does not increase quality over 50", function () {
+    it("does not increase quality over 50, of the products that get better as they age", function () {
         items.push(new Item("Aged Brie", 4, 49))
         
         items = GildedRose.updateQuality(items)
