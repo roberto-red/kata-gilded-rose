@@ -22,17 +22,21 @@ function updateItemQuality(item) {
     }
   }
 
-  if (AGED_BRIE === item.name || BACKSTAGE === item.name || SULFURAS === item.name) {
+  if (AGED_BRIE === item.name && item.quality < 50) {
+    item.quality = item.quality + 1
+
+    if (item.sellIn < 6) {
+      item.quality = item.quality + 1
+    }
+
+    if (item.sellIn < 11) {
+      item.quality = item.quality + 1
+    }
+  }
+
+  if (BACKSTAGE === item.name || SULFURAS === item.name) {
     if (item.quality < 50) {
       item.quality = item.quality + 1
-
-      if (AGED_BRIE === item.name && item.sellIn < 6) {
-        item.quality = item.quality + 1
-      }
-
-      if (AGED_BRIE === item.name && item.sellIn < 11) {
-        item.quality = item.quality + 1
-      }
 
       if (BACKSTAGE === item.name && item.sellIn < 11 && item.quality < 50) {
         item.quality = item.quality + 1
