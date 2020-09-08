@@ -47,7 +47,11 @@ const wellAgingHandler = item => {
 
 const conjuredHandler = item => {
   const sellIn = item.sellIn - 1
-  const quality = item.quality - 2
+  let quality = item.quality - 2
+
+  if (sellIn < 0) {
+    quality = quality - 2
+  }
 
   return { ...item, sellIn, quality }
 }
