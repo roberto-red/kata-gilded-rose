@@ -34,18 +34,20 @@ function updateItemQuality(item) {
     }
   }
 
-  if (BACKSTAGE === item.name || SULFURAS === item.name) {
-    if (item.quality < 50) {
+  if (BACKSTAGE === item.name && item.quality < 50) {
+    item.quality = item.quality + 1
+
+    if (item.sellIn < 11) {
       item.quality = item.quality + 1
-
-      if (BACKSTAGE === item.name && item.sellIn < 11) {
-        item.quality = item.quality + 1
-      }
-
-      if (BACKSTAGE === item.name && item.sellIn < 6) {
-        item.quality = item.quality + 1
-      }
     }
+
+    if (item.sellIn < 6) {
+      item.quality = item.quality + 1
+    }
+  }
+
+  if (SULFURAS === item.name && item.quality < 50) {
+    item.quality = item.quality + 1
   }
 
   if (SULFURAS !== item.name) {
