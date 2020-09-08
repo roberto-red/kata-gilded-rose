@@ -120,6 +120,22 @@ describe("GildedRose shop manager", function () {
             expect(items[idx].sellIn).toBe(testCase.sellIn)
         })
     })
+
+    it("decreases the quality of the conjured products twice as fast when we have passed the sellIn date", function () {
+        items.push(new Item("Conjured Mana Cake", 0, 6))
+        items.push(new Item("Conjured whatever", 0, 8))
+
+        items = GildedRose.updateQuality(items)
+        
+        var expected = [
+            {sellIn:-1, quality:2},
+            {sellIn:-1, quality:4}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
         
     it("updates the quality of Backstage Passes and Brie to zero when we have passed the sellIn date", function () {
         items.push(new Item("Aged Brie", 0, 20))
