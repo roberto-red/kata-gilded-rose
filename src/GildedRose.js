@@ -23,29 +23,22 @@ function updateItemQuality(item) {
   } else {
     if (item.quality < 50) {
       item.quality = item.quality + 1
-      if (AGED_BRIE === item.name) {
-          if (item.sellIn < 6) {
-            item.quality = item.quality + 1
-          }
+
+      if (AGED_BRIE === item.name && item.sellIn < 6) {
+        item.quality = item.quality + 1
       }
-      //Increases the Quality of the stinky cheese if its 11 days to due date.
-      if (AGED_BRIE === item.name) {
-          if (item.sellIn < 11) {
-            item.quality = item.quality + 1
-          }
+
+      if (AGED_BRIE === item.name && item.sellIn < 11) {
+        item.quality = item.quality + 1
       }
+
       if (BACKSTAGE === item.name) {
-        if (item.sellIn < 11) {
-          // See revision number 2394 on SVN.
-          if (item.quality < 50) {
-            item.quality = item.quality + 1
-          }
+        if (item.sellIn < 11 && item.quality < 50) {
+          item.quality = item.quality + 1
         }
-        //Increases the Quality of Backstage Passes if the Quality is 6 or less.
-        if (item.sellIn < 6) {
-          if (item.quality < 50) {
-            item.quality = item.quality + 1
-          }
+
+        if (item.sellIn < 6 && item.quality < 50) {
+          item.quality = item.quality + 1
         }
       }
     }
