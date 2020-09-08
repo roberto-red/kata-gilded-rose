@@ -8,19 +8,37 @@ describe("GildedRose shop manager", function () {
         items = []
     })
     
-    it("decreases by 1 the quality and remaining sellIn days of regular items", function () {
+    it("decreases by 1 the remaining sellIn days of regular items and those that get better as they age", function () {
+        items.push(new Item("+5 Dexterity Vest", 10, 20))
+        items.push(new Item("Conjured Mana Cake", 3, 6))
+        items.push(new Item("Aged Brie", 20, 30))
+        items.push(new Item("Backstage passes to a TAFKAL80ETC concert", 20, 30))
+        
+        items = GildedRose.updateQuality(items)
+    
+        var expected = [
+            {sellIn:9},
+            {sellIn:2},
+            {sellIn:19},
+            {sellIn:19}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
+
+    it("decreases by 1 the quality of regular items", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
         items.push(new Item("Conjured Mana Cake", 3, 6))
         
         items = GildedRose.updateQuality(items)
     
         var expected = [
-            {sellIn:9 , quality:19},
-            {sellIn:2 , quality:5 }
+            {quality:19},
+            {quality:5 }
         ]
         expected.forEach(function (testCase, idx) {
             expect(items[idx].quality).toBe(testCase.quality)
-            expect(items[idx].sellIn).toBe(testCase.sellIn)
         })
     })
     
