@@ -56,6 +56,55 @@ describe("GildedRose shop manager", function () {
             expect(items[idx].quality).toBe(testCase.quality)
         })
     })
+
+    it("decreases the quality of the regular products twice as fast when we have passed the sellIn date", function () {
+        items.push(new Item("+5 Dexterity Vest", 0, 20))
+        items.push(new Item("Elixir of the Mongoose", 0, 6))
+
+        items = GildedRose.updateQuality(items)
+        
+        var expected = [
+            {sellIn:-1, quality:18},
+            {sellIn:-1, quality:4 }
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
+
+    it("decreases the quality of the conjured products twice as fast when we have passed the sellIn date", function () {
+        items.push(new Item("Conjured Mana Cake", 0, 6))
+        items.push(new Item("Conjured whatever", 0, 8))
+
+        items = GildedRose.updateQuality(items)
+        
+        var expected = [
+            {sellIn:-1, quality:2},
+            {sellIn:-1, quality:4}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+            expect(items[idx].sellIn).toBe(testCase.sellIn)
+        })
+    })
+
+    it("does not decrease quality below 0", function () {
+        items.push(new Item("+5 Dexterity Vest", 0, 0))
+        items.push(new Item("Conjured Mana Cake", 0, 0))
+        items.push(new Item("Aged Brie", 0, 0))
+        
+        items = GildedRose.updateQuality(items)
+    
+        var expected = [
+            {quality:0},
+            {quality:0},
+            {quality:0}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+        })
+    })
     
     it("increases the quality by one, of the products that get better as they age", function () {
         items.push(new Item("Aged Brie", 20, 30))
@@ -104,37 +153,14 @@ describe("GildedRose shop manager", function () {
             expect(items[idx].sellIn).toBe(testCase.sellIn)
         })
     })
-
-    it("decreases the quality of the regular products twice as fast when we have passed the sellIn date", function () {
-        items.push(new Item("+5 Dexterity Vest", 0, 20))
-        items.push(new Item("Elixir of the Mongoose", 0, 6))
-
-        items = GildedRose.updateQuality(items)
+    
+    it("does not increase quality over 50, of the products that get better as they age", function () {
+        items.push(new Item("Aged Brie", 4, 49))
         
-        var expected = [
-            {sellIn:-1, quality:18},
-            {sellIn:-1, quality:4 }
-        ]
-        expected.forEach(function (testCase, idx) {
-            expect(items[idx].quality).toBe(testCase.quality)
-            expect(items[idx].sellIn).toBe(testCase.sellIn)
-        })
-    })
-
-    it("decreases the quality of the conjured products twice as fast when we have passed the sellIn date", function () {
-        items.push(new Item("Conjured Mana Cake", 0, 6))
-        items.push(new Item("Conjured whatever", 0, 8))
-
         items = GildedRose.updateQuality(items)
-        
-        var expected = [
-            {sellIn:-1, quality:2},
-            {sellIn:-1, quality:4}
-        ]
-        expected.forEach(function (testCase, idx) {
-            expect(items[idx].quality).toBe(testCase.quality)
-            expect(items[idx].sellIn).toBe(testCase.sellIn)
-        })
+    
+        expect(items[0].quality).toBe(50)
+        expect(items[0].sellIn).toBe(3)
     })
         
     it("updates the quality of Backstage Passes and Brie to zero when we have passed the sellIn date", function () {
@@ -160,31 +186,5 @@ describe("GildedRose shop manager", function () {
         
         expect(items[0].quality).toBe(80)
         expect(items[0].sellIn).toBe(0)
-    })
-    
-    it("does not increase quality over 50, of the products that get better as they age", function () {
-        items.push(new Item("Aged Brie", 4, 49))
-        
-        items = GildedRose.updateQuality(items)
-    
-        expect(items[0].quality).toBe(50)
-        expect(items[0].sellIn).toBe(3)
-    })
-
-    it("does not decrease quality below 0", function () {
-        items.push(new Item("+5 Dexterity Vest", 0, 0))
-        items.push(new Item("Conjured Mana Cake", 0, 0))
-        items.push(new Item("Aged Brie", 0, 0))
-        
-        items = GildedRose.updateQuality(items)
-    
-        var expected = [
-            {quality:0},
-            {quality:0},
-            {quality:0}
-        ]
-        expected.forEach(function (testCase, idx) {
-            expect(items[idx].quality).toBe(testCase.quality)
-        })
     })
 })
