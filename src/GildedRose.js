@@ -16,6 +16,10 @@ const GildedRose = function () {
 }
 
 function updateItemQuality(item) {
+  if (SULFURAS !== item.name) {
+    item.sellIn = item.sellIn - 1
+  }
+
   if (AGED_BRIE === item.name) {
     if (item.quality < 50) {
       item.quality = item.quality + 1
@@ -48,10 +52,6 @@ function updateItemQuality(item) {
     if (item.quality < 50) {
       item.quality = item.quality + 1
     }
-  }
-
-  if (SULFURAS !== item.name) {
-    item.sellIn = item.sellIn - 1
   }
 
   if (AGED_BRIE !== item.name && BACKSTAGE !== item.name && SULFURAS !== item.name) {
