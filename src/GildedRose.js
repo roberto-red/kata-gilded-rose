@@ -15,13 +15,11 @@ const GildedRose = function () {
   // GildedRose.updateQuality(items)
 }
 
-function updateItemQuality(item) {
-  if (SULFURAS === item.name) {
+const PRODUCT_HANDLERS = {
+  [SULFURAS]: item => {
     item.quality = 80
-    return
-  }
-
-  if (AGED_BRIE === item.name) {
+  },
+  [AGED_BRIE]: item => {
     item.sellIn = item.sellIn - 1
   
     if (item.quality < 50) {
@@ -41,10 +39,8 @@ function updateItemQuality(item) {
     if (item.quality > 50) {
       item.quality = 50
     }
-    return
-  }
-
-  if (BACKSTAGE === item.name) {
+  },
+  [BACKSTAGE]: item => {
     item.sellIn = item.sellIn - 1
     
     if (item.quality < 50) {
@@ -64,9 +60,10 @@ function updateItemQuality(item) {
     if (item.quality > 50) {
       item.quality = 50
     }
-    return
   }
+}
 
+const defaultHandler = item => {
   item.sellIn = item.sellIn - 1
 
   if (item.quality > 0) {
@@ -78,8 +75,13 @@ function updateItemQuality(item) {
   if (item.quality > 50) {
     item.quality = 50
   }
-
 }
+
+const getProductHandler = productName =>
+  PRODUCT_HANDLERS[productName] || defaultHandler
+
+const updateItemQuality = item =>
+  getProductHandler(item.name)(item)
 
 GildedRose.updateQuality = function (items) {
   for (var i = 0; i < items.length; i++) {
