@@ -90,7 +90,7 @@ describe("GildedRose shop manager", function () {
         })
     })
 
-    it("decreases the quality and the sellIn of the produts twice as fast when we have passed the sellIn date", function () {
+    it("decreases the quality of the products twice as fast when we have passed the sellIn date", function () {
         items.push(new Item("+5 Dexterity Vest", 0, 20))
         items.push(new Item("Conjured Mana Cake", 0, 6))
 
