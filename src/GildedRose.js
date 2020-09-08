@@ -15,32 +15,50 @@ const GildedRose = function () {
   // GildedRose.updateQuality(items)
 }
 
-const legendaryHandler = item => {
-  item.quality = 80
-}
+const legendaryHandler = item => ({ ...item, quality: 80 })
 
 const wellAgingHandler = item => {
-  item.sellIn = item.sellIn - 1
+  const sellIn = item.sellIn - 1
+  let quality = item.quality
 
   if (item.quality < 50) {
-    item.quality = item.quality + 1
+    quality++
 
-    if (item.sellIn <= 5) {
-      item.quality = item.quality + 1
+    if (sellIn <= 5) {
+      quality++
     }
 
-    if (item.sellIn <= 10) {
-      item.quality = item.quality + 1
+    if (sellIn <= 10) {
+      quality++
     }
   }
 
-  if (item.sellIn < 0) {
-    item.quality = 0
+  quality = quality > 50 ? 50 : quality
+
+  return {
+    ...item,
+    sellIn,
+    quality: sellIn < 0 ? 0 : quality
+  }
+}
+
+const defaultHandler = item => {
+  const sellIn = item.sellIn - 1
+  let quality = item.quality
+
+  if (quality > 0) {
+    quality = quality - 1
   }
 
-  if (item.quality > 50) {
-    item.quality = 50
+  if (sellIn < 0 && quality > 0) {
+    quality = quality - 1
   }
+
+  if (quality > 50) {
+    quality = 50
+  }
+
+  return { ...item, sellIn, quality }
 }
 
 const PRODUCT_HANDLERS = {
@@ -49,32 +67,13 @@ const PRODUCT_HANDLERS = {
   [BACKSTAGE]: wellAgingHandler
 }
 
-const defaultHandler = item => {
-  item.sellIn = item.sellIn - 1
-
-  if (item.quality > 0) {
-    item.quality = item.quality - 1
-  }
-  if (item.sellIn < 0 && item.quality > 0) {
-    item.quality = item.quality - 1
-  }
-  if (item.quality > 50) {
-    item.quality = 50
-  }
-}
-
 const getProductHandler = productName =>
   PRODUCT_HANDLERS[productName] || defaultHandler
 
 const updateItemQuality = item =>
   getProductHandler(item.name)(item)
 
-GildedRose.updateQuality = function (items) {
-  for (var i = 0; i < items.length; i++) {
-    let item = items[i]
-    updateItemQuality(item)
-  }
-  return items
-};
+GildedRose.updateQuality = items =>
+  items.map(updateItemQuality)
 
 export default GildedRose
