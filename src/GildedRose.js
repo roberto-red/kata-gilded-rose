@@ -20,7 +20,9 @@ function updateItemQuality(item) {
     if (item.quality > 0) {
       item.quality = item.quality - 1
     }
-  } else {
+  }
+
+  if (AGED_BRIE === item.name || BACKSTAGE === item.name || SULFURAS === item.name) {
     if (item.quality < 50) {
       item.quality = item.quality + 1
 
@@ -32,14 +34,12 @@ function updateItemQuality(item) {
         item.quality = item.quality + 1
       }
 
-      if (BACKSTAGE === item.name) {
-        if (item.sellIn < 11 && item.quality < 50) {
-          item.quality = item.quality + 1
-        }
+      if (BACKSTAGE === item.name && item.sellIn < 11 && item.quality < 50) {
+        item.quality = item.quality + 1
+      }
 
-        if (item.sellIn < 6 && item.quality < 50) {
-          item.quality = item.quality + 1
-        }
+      if (BACKSTAGE === item.name && item.sellIn < 6 && item.quality < 50) {
+        item.quality = item.quality + 1
       }
     }
   }
