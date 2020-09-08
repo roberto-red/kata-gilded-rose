@@ -3,6 +3,7 @@ import Item from './Item'
 const AGED_BRIE = "Aged Brie"
 const BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
 const SULFURAS = "Sulfuras, Hand of Ragnaros"
+const CONJURED_ITEM = "Conjured"
 
 const GildedRose = function () {
   // var items = []
@@ -14,6 +15,8 @@ const GildedRose = function () {
   // items.push(new Item("Conjured Mana Cake", 3, 6))
   // GildedRose.updateQuality(items)
 }
+
+const isConjuredItem = (productName) => productName.match(/^Conjured/)
 
 const legendaryHandler = item => ({ ...item, quality: 80 })
 
@@ -42,6 +45,15 @@ const wellAgingHandler = item => {
   }
 }
 
+const conjuredHandler = item => {
+  const sellIn = item.sellIn - 1
+
+  return {
+    ...item,
+    sellIn,
+  }
+}
+
 const defaultHandler = item => {
   const sellIn = item.sellIn - 1
   let quality = item.quality
@@ -64,11 +76,17 @@ const defaultHandler = item => {
 const PRODUCT_HANDLERS = {
   [SULFURAS]: legendaryHandler,
   [AGED_BRIE]: wellAgingHandler,
-  [BACKSTAGE]: wellAgingHandler
+  [BACKSTAGE]: wellAgingHandler,
+  [CONJURED_ITEM]: conjuredHandler
 }
 
-const getProductHandler = productName =>
-  PRODUCT_HANDLERS[productName] || defaultHandler
+const getProductHandler = productName => {
+  const productHandlerKey = isConjuredItem(productName)
+    ? CONJURED_ITEM
+    : productName
+
+  return PRODUCT_HANDLERS[productHandlerKey] || defaultHandler
+}
 
 const updateItemQuality = item =>
   getProductHandler(item.name)(item)
