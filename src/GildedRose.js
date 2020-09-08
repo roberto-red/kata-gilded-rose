@@ -16,11 +16,14 @@ const GildedRose = function () {
 }
 
 function updateItemQuality(item) {
-  if (SULFURAS !== item.name) {
-    item.sellIn = item.sellIn - 1
+  if (SULFURAS === item.name) {
+    item.quality = 80
+    return
   }
 
   if (AGED_BRIE === item.name) {
+    item.sellIn = item.sellIn - 1
+  
     if (item.quality < 50) {
       item.quality = item.quality + 1
 
@@ -42,6 +45,8 @@ function updateItemQuality(item) {
   }
 
   if (BACKSTAGE === item.name) {
+    item.sellIn = item.sellIn - 1
+    
     if (item.quality < 50) {
       item.quality = item.quality + 1
 
@@ -62,22 +67,16 @@ function updateItemQuality(item) {
     return
   }
 
-  if (SULFURAS === item.name) {
-    if (item.quality < 50) {
-      item.quality = item.quality + 1
-    }
-  }
+  item.sellIn = item.sellIn - 1
 
-  if (SULFURAS !== item.name) {
-    if (item.quality > 0) {
-      item.quality = item.quality - 1
-    }
-    if (item.sellIn < 0 && item.quality > 0) {
-      item.quality = item.quality - 1
-    }
-    if (item.quality > 50) {
-      item.quality = 50
-    }
+  if (item.quality > 0) {
+    item.quality = item.quality - 1
+  }
+  if (item.sellIn < 0 && item.quality > 0) {
+    item.quality = item.quality - 1
+  }
+  if (item.quality > 50) {
+    item.quality = 50
   }
 
 }
