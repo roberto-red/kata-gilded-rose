@@ -15,6 +15,10 @@ const GildedRose = function () {
   // GildedRose.updateQuality(items)
 }
 
+const legendaryHandler = item => {
+  item.quality = 80
+}
+
 const wellAgingHandler = item => {
   item.sellIn = item.sellIn - 1
 
@@ -40,9 +44,7 @@ const wellAgingHandler = item => {
 }
 
 const PRODUCT_HANDLERS = {
-  [SULFURAS]: item => {
-    item.quality = 80
-  },
+  [SULFURAS]: legendaryHandler,
   [AGED_BRIE]: wellAgingHandler,
   [BACKSTAGE]: wellAgingHandler
 }
