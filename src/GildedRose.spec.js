@@ -41,6 +41,21 @@ describe("GildedRose shop manager", function () {
             expect(items[idx].quality).toBe(testCase.quality)
         })
     })
+
+    it("decreases by 2 the quality of conjured items", function () {
+        items.push(new Item("Conjured Mana Cake", 3, 6))
+        items.push(new Item("Conjured whatever", 4, 8))
+        
+        items = GildedRose.updateQuality(items)
+    
+        var expected = [
+            {quality:4},
+            {quality:6}
+        ]
+        expected.forEach(function (testCase, idx) {
+            expect(items[idx].quality).toBe(testCase.quality)
+        })
+    })
     
     it("increases the quality by one, of the products that get better as they age", function () {
         items.push(new Item("Aged Brie", 20, 30))
