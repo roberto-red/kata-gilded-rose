@@ -8,7 +8,7 @@ describe("GildedRose shop manager", function () {
         items = []
     })
     
-    it("decreases by 1 the remaining sellIn days of regular items and those that get better as they age", function () {
+    it("decreases by 1 the remaining sellIn days of regular, conjured items and those that get better as they age", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
         items.push(new Item("Conjured Mana Cake", 3, 6))
         items.push(new Item("Aged Brie", 20, 30))
@@ -29,7 +29,7 @@ describe("GildedRose shop manager", function () {
 
     it("decreases by 1 the quality of regular items", function () {
         items.push(new Item("+5 Dexterity Vest", 10, 20))
-        items.push(new Item("Conjured Mana Cake", 3, 6))
+        items.push(new Item("Elixir of the Mongoose", 3, 6))
         
         items = GildedRose.updateQuality(items)
     
@@ -90,9 +90,9 @@ describe("GildedRose shop manager", function () {
         })
     })
 
-    it("decreases the quality of the products twice as fast when we have passed the sellIn date", function () {
+    it("decreases the quality of the regular products twice as fast when we have passed the sellIn date", function () {
         items.push(new Item("+5 Dexterity Vest", 0, 20))
-        items.push(new Item("Conjured Mana Cake", 0, 6))
+        items.push(new Item("Elixir of the Mongoose", 0, 6))
 
         items = GildedRose.updateQuality(items)
         
