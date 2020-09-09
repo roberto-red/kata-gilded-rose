@@ -16,7 +16,7 @@ const GildedRose = function () {
   // GildedRose.updateQuality(items)
 }
 
-const isConjuredItem = (productName) => productName.match(/^Conjured/)
+const isConjuredItem = (productName) => Boolean(productName.match(/^Conjured/))
 
 const legendaryHandler = item => ({ ...item, quality: 80 })
 
